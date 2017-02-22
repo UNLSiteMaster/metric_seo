@@ -94,8 +94,7 @@ class Metric extends MetricInterface
 
             /**
              * TODO: do the following
-             * 1. context should be displayed as a javascript selector instead of 'html context' in UI
-             * 2. show passing marks somehow
+             * 1. check for a sitemap file
              */
             $page->addMark($mark, array(
                 'context'   => htmlentities($result['context']),
