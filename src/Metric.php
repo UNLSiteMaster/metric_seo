@@ -83,13 +83,14 @@ class Metric extends MetricInterface
         }
         
         foreach ($this->headless_results as $result) {
+            $point_deduction = 1;
             if ($result['passes']) {
-                continue;
+                $point_deduction = -1;
             }
 
-            $machine_name = 'seo_'.$result['id'];
+            $machine_name = 'seo_'.$result['id'].'_'.($result['passes'])? 'pass': 'fail';
 
-            $mark = $this->getMark($machine_name, $result['name'], 1);
+            $mark = $this->getMark($machine_name, $result['name'], $point_deduction);
 
             /**
              * TODO: do the following

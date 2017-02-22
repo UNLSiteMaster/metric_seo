@@ -123,7 +123,7 @@ window.site_master_metric_seo = {
 
 		var keywords = document.querySelector(selector);
 
-		if (keywords.length != 0) {
+		if (keywords) {
 			mark_keywords_not_exist.passes = false;
 			mark_keywords_not_exist.value_found = 'The selector - '+ selector+' - matched elements on the page';
 			mark_keywords_not_exist.context = keywords.outerHTML;
