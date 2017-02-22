@@ -88,7 +88,7 @@ class Metric extends MetricInterface
                 $point_deduction = -1;
             }
 
-            $machine_name = 'seo_'.$result['id'].'_'.($result['passes'])? 'pass': 'fail';
+            $machine_name = 'seo_'.$result['id'].'_'.(($result['passes'])? 'pass': 'fail');
 
             $mark = $this->getMark($machine_name, $result['name'], $point_deduction);
 
