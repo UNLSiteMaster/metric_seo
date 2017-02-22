@@ -19,8 +19,8 @@ window.site_master_metric_seo = {
 		var selector = 'head title';
 		var title = document.querySelector(selector);
 		
-		var mark_title_exists = this.createMark('title_exists', 'A title element should exist on the page', null, null, 'selector: '+selector);
-		var mark_title_length = this.createMark('title_length', 'The title element should not exceed 60 characters', null, null, 'selector: '+selector);
+		var mark_title_exists = this.createMark('title_exists', 'A title element should exist on the page', null, null, selector);
+		var mark_title_length = this.createMark('title_length', 'The title element should not exceed 60 characters', null, null, selector);
 
 		
 		if (!title) {
@@ -32,9 +32,11 @@ window.site_master_metric_seo = {
 			//A title element was found
 			mark_title_exists.passes = true;
 			mark_title_exists.value_found = title.textContent;
+			mark_title_exists.context = title.outerHTML;
 			
 			var length = title.textContent.length;
 			mark_title_length.value_found = length + ' characters: ' + title.textContent;
+			mark_title_length.context = title.outerHTML;
 			
 			if (length > 60) {
 				//longer than 60 characters
@@ -57,8 +59,8 @@ window.site_master_metric_seo = {
 
 		var selector = 'head meta[name="description"]';
 		
-		var mark_description_exists = this.createMark('description_exists', 'The meta description should exist', null, null, 'selector: '+selector);
-		var mark_description_length = this.createMark('long_description', 'The meta description should not exceed 160 characters', null, null, 'selector: '+selector);
+		var mark_description_exists = this.createMark('description_exists', 'The meta description should exist', null, null, selector);
+		var mark_description_length = this.createMark('long_description', 'The meta description should not exceed 160 characters', null, null, selector);
 		
 		var description = document.querySelector(selector);
 		
@@ -70,9 +72,11 @@ window.site_master_metric_seo = {
 			//description was found
 			mark_description_exists.passes = true;
 			mark_description_exists.value_found = description.getAttribute('content');
+			mark_description_exists.context = description.outerHTML;
 			
 			var length = description.getAttribute('content').length;
 			mark_description_length.value_found = length + ' characters: ' + description.getAttribute('content');
+			mark_description_length.context = description.outerHTML;
 			
 			if (length > 160) {
 				mark_description_length.passes = false;
@@ -93,7 +97,7 @@ window.site_master_metric_seo = {
 
 		var selector = 'h1, h2, h3, h4, h5, h6';
 
-		var mark_headings_exist = this.createMark('headings_exist', 'Heading elements should exist', null, null, 'selector: '+selector);
+		var mark_headings_exist = this.createMark('headings_exist', 'Heading elements should exist', null, null, selector);
 
 		var headings = document.querySelectorAll(selector);
 		
@@ -115,13 +119,14 @@ window.site_master_metric_seo = {
 
 		var selector = 'head meta[name="keywords"]';
 
-		var mark_keywords_not_exist = this.createMark('meta_keywords_not_exist', 'Meta keywords should not exist', null, null, 'selector: '+selector);
+		var mark_keywords_not_exist = this.createMark('meta_keywords_not_exist', 'Meta keywords should not exist', null, null, selector);
 
-		var headings = document.querySelectorAll(selector);
+		var keywords = document.querySelector(selector);
 
-		if (headings.length != 0) {
+		if (keywords.length != 0) {
 			mark_keywords_not_exist.passes = false;
 			mark_keywords_not_exist.value_found = 'The selector - '+ selector+' - matched elements on the page';
+			mark_keywords_not_exist.context = keywords.outerHTML;
 		} else {
 			mark_keywords_not_exist.passes = true;
 		}
@@ -131,13 +136,14 @@ window.site_master_metric_seo = {
 		return results;
 	},
 	
-	createMark: function(id, name, message, value_found, context) {
+	createMark: function(id, name, message, value_found, selector) {
 		return {
 			'id' : id,
 			'name': name,
 			'message': message,
 			'value_found': value_found,
-			'context': context,
+			'context': '',
+			'selector': selector,
 			'passes': null
 		}
 	}
