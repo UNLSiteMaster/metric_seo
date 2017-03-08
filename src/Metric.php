@@ -101,6 +101,25 @@ class Metric extends MetricInterface
                 'value_found' => htmlentities($result['value_found']),
             ));
         }
+        
+        $site = $page->getSite();
+        
+        if ($uri === $site->base_url) {
+            $sitemap_url = $site->base_url . 'sitemap.xml';
+            //If this is the base url (home page), check for a sitemap
+            $info = \SiteMaster\Core\Util::getHTTPInfo($sitemap_url);
+            
+            $point_deduction = -1;
+            if (!$info['okay']) {
+                //Could not be found, or there is some sort of error
+                $point_deduction = 1;
+            }
+
+            $mark = $this->getMark('seo_sitemap', 'A sitemap should exist', $point_deduction, 'A sitemap.xml file helps search engines know about pages on your site that might not otherwise be discovered.', 'See more information on the [sitemap protocol](https://www.sitemaps.org/protocol.html).');
+            $page->addMark($mark, array(
+                'help_text' => 'The file should exist at [' . $sitemap_url . '](' . $sitemap_url . ').',
+            ));
+        }
 
         return true;
     }
