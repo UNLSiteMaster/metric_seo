@@ -17,10 +17,13 @@ class Metric extends MetricInterface
      */
     public function __construct($plugin_name, array $options = array())
     {
-        $options = array_replace_recursive(array(
+        $options = array_replace_recursive([
             'service_url' => 'https://validator.w3.org/nu/',
-            'help_text' => array()
-        ), $options);
+            'help_text' => [],
+            'mark_id_is_error' => ['title_exists', 'headings_exist', 'meta_keywords_not_exist'],
+        ], $options);
+        
+        
 
         parent::__construct($plugin_name, $options);
     }
@@ -83,7 +86,12 @@ class Metric extends MetricInterface
         }
         
         foreach ($this->headless_results as $result) {
-            $point_deduction = 1;
+            $point_deduction = 0;
+            if (in_array($result['id'], $this->options['mark_id_is_error'])) {
+                //These are real errors instead of notices that can be suppressed
+                $point_deduction = 1;
+            }
+            
             if ($result['passes']) {
                 $point_deduction = -1;
             }
@@ -91,11 +99,7 @@ class Metric extends MetricInterface
             $machine_name = 'seo_'.$result['id'].'_'.(($result['passes'])? 'pass': 'fail');
 
             $mark = $this->getMark($machine_name, $result['name'], $point_deduction, $result['description']);
-
-            /**
-             * TODO: do the following
-             * 1. check for a sitemap file
-             */
+            
             $page->addMark($mark, array(
                 'context'   => htmlentities($result['context']),
                 'value_found' => htmlentities($result['value_found']),
@@ -111,8 +115,9 @@ class Metric extends MetricInterface
             
             $point_deduction = -1;
             if (!$info['okay']) {
-                //Could not be found, or there is some sort of error
-                $point_deduction = 1;
+                //Could not be found, or there is some sort of error.
+                //Not EVERYTHING needs a sitemap file, so this should be a notice
+                $point_deduction = 0;
             }
 
             $mark = $this->getMark('seo_sitemap', 'A sitemap should exist', $point_deduction, 'A sitemap.xml file helps search engines know about pages on your site that might not otherwise be discovered.', 'See more information on the [sitemap protocol](https://www.sitemaps.org/protocol.html).');
