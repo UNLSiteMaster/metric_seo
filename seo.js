@@ -19,7 +19,7 @@ window.site_master_metric_seo = {
 		var selector = 'head title';
 		var title = document.querySelector(selector);
 		
-		var mark_title_exists = this.createMark('title_exists', 'A title element should exist on the page', null, selector);
+		var mark_title_exists = this.createMark('title_exists', 'A title element must exist on the page', null, selector);
 		mark_title_exists.description = 'Search engines will use the title tag as one of the most important factors of SEO and also display it to users.';
 		var mark_title_length = this.createMark('title_length', 'The title element should not exceed 60 characters', null, selector);
 		mark_title_length.description = 'Search engines will only show up to 60 characters of the title tag to users, so it should be kept under that limit.';
@@ -101,7 +101,7 @@ window.site_master_metric_seo = {
 
 		var selector = 'h1, h2, h3, h4, h5, h6';
 
-		var mark_headings_exist = this.createMark('headings_exist', 'Heading elements should exist', null, selector);
+		var mark_headings_exist = this.createMark('headings_exist', 'Heading elements must exist', null, selector);
 		mark_headings_exist.description = 'Heading tags can be used by search engines to generate a list of key words for the page.';
 
 		var headings = document.querySelectorAll(selector);
@@ -124,7 +124,7 @@ window.site_master_metric_seo = {
 
 		var selector = 'head meta[name="keywords"]';
 
-		var mark_keywords_not_exist = this.createMark('meta_keywords_not_exist', 'Meta keywords should not exist', null, selector);
+		var mark_keywords_not_exist = this.createMark('meta_keywords_not_exist', 'Meta keywords must not exist', null, selector);
 		mark_keywords_not_exist.description = 'The meta keywords tag is not used by any search engines and will not improve your SEO score. They should be avoided.';
 
 		var keywords = document.querySelector(selector);
