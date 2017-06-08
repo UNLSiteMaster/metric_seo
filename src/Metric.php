@@ -20,7 +20,7 @@ class Metric extends MetricInterface
         $options = array_replace_recursive([
             'service_url' => 'https://validator.w3.org/nu/',
             'help_text' => [],
-            'mark_id_is_error' => ['title_exists', 'headings_exist', 'meta_keywords_not_exist'],
+            'mark_id_is_error' => ['title_exists', 'headings_exist'],
         ], $options);
         
         

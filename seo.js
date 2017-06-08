@@ -124,7 +124,7 @@ window.site_master_metric_seo = {
 
 		var selector = 'head meta[name="keywords"]';
 
-		var mark_keywords_not_exist = this.createMark('meta_keywords_not_exist', 'Meta keywords must not exist', null, selector);
+		var mark_keywords_not_exist = this.createMark('meta_keywords_not_exist', 'Meta keywords should not exist', null, selector);
 		mark_keywords_not_exist.description = 'The meta keywords tag is not used by any search engines and will not improve your SEO score. They should be avoided.';
 
 		var keywords = document.querySelector(selector);
